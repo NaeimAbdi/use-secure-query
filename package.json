@@ -1,0 +1,60 @@
+{
+  "name": "use-secure-query",
+  "version": "1.0.0",
+  "description": "A Next.js-compatible React hook for encrypted URL parameters with multiple encryption modes and features",
+  "keywords": [
+    "nextjs",
+    "react",
+    "hook",
+    "encryption",
+    "url",
+    "query",
+    "security",
+    "privacy",
+    "url-encryption"
+  ],
+  "author": "Naeim Abdi",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/naeim/use-secure-query"
+  },
+  "bugs": {
+    "url": "https://github.com/naeim/use-secure-query/issues"
+  },
+  "homepage": "https://github.com/naeim/use-secure-query#readme",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "peerDependencies": {
+    "next": ">=14",
+    "react": ">=18"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "next": "^14",
+    "react": "^18",
+    "tsup": "^8.5.0",
+    "typescript": "^5"
+  },
+  "scripts": {
+    "dev": "tsup src/index.ts --watch --dts",
+    "build": "tsup src/index.ts --dts",
+    "prepublishOnly": "pnpm run build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "packageManager": "pnpm@9.4.0+sha1.9217c800d4ab947a7aee520242a7b70d64fc7638"
+}
