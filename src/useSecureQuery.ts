@@ -58,9 +58,10 @@
  */
 
 "use client";
+
 import { useCallback, useMemo } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 /* ---------------- Types ---------------- */
 interface Options {
@@ -248,10 +249,9 @@ export function xorDecrypt(
   const bytes = base64UrlDecode(encoded);
 
   if (!bytes) {
-    if (typeof window !== "undefined") {
-      window.location.href = notFoundPath ?? "/404";
+    if (notFoundPath && typeof window !== "undefined") {
+      window.location.href = notFoundPath;
     }
-
     return null;
   }
 
@@ -261,36 +261,27 @@ export function xorDecrypt(
   return fromUtf8(out);
 }
 
-/* ---------- byte helpers ---------- */
 const te = new TextEncoder();
 const td = new TextDecoder();
+
 const toUtf8 = (s: string) => te.encode(s);
 const fromUtf8 = (u8: Uint8Array) => td.decode(u8);
 
-/* ---------- URL‑safe Base64 ---------- */
 function base64UrlEncode(u8: Uint8Array): string {
-  const bin = String.fromCharCode(...u8);
-  const b64 =
-    typeof btoa !== "undefined"
-      ? btoa(bin)
-      : Buffer.from(bin, "binary").toString("base64");
-
-  return b64.replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+  return btoa(String.fromCharCode.apply(null, Array.from(u8)))
+    .replace(/\+/g, "-")
+    .replace(/\//g, "_")
+    .replace(/=+$/, "");
 }
 
 function base64UrlDecode(str: string): Uint8Array | null {
-  let b64 = str.replace(/-/g, "+").replace(/_/g, "/");
-
-  while (b64.length % 4) b64 += "=";
-
   try {
-    const bin =
-      typeof atob !== "undefined"
-        ? atob(b64)
-        : Buffer.from(b64, "base64").toString("binary");
-
-    return Uint8Array.from(bin, (c) => c.charCodeAt(0));
+    const b64 = str.replace(/-/g, "+").replace(/_/g, "/");
+    const pad = b64.length % 4;
+    const padded = pad ? b64 + "=".repeat(4 - pad) : b64;
+    const bin = atob(padded);
+    return new Uint8Array(bin.split("").map((c) => c.charCodeAt(0)));
   } catch {
-    return null; // signal corruption without throwing
+    return null;
   }
 }
