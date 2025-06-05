@@ -1,6 +1,6 @@
 {
   "name": "use-secure-query",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "A Next.js-compatible React hook for encrypted URL parameters with multiple encryption modes and features",
   "keywords": [
     "nextjs",
