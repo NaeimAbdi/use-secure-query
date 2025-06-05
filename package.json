@@ -17,12 +17,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/naeim/use-secure-query"
+    "url": "https://github.com/NaeimAbdi/use-secure-query"
   },
   "bugs": {
-    "url": "https://github.com/naeim/use-secure-query/issues"
+    "url": "https://github.com/NaeimAbdi/use-secure-query/issues"
   },
-  "homepage": "https://github.com/naeim/use-secure-query#readme",
+  "homepage": "https://github.com/NaeimAbdi/use-secure-query#readme",
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
