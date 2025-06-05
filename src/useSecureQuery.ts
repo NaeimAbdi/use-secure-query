@@ -59,7 +59,7 @@
 
 "use client";
 
-import { useCallback, useMemo } from "react";
+import { useCallback, useMemo, useEffect, useState } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 
@@ -92,6 +92,11 @@ export default function useSecureQuery(opts: Options = {}) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   /* ---------- xor helpers ---------- */
   const encrypt = useCallback(
@@ -105,6 +110,8 @@ export default function useSecureQuery(opts: Options = {}) {
 
   /* ---------- memo: query ---------- */
   const { data: query } = useMemo(() => {
+    if (!mounted) return { data: {} };
+
     const out: Record<string, string> = {};
 
     const safeDecrypt = (val: string): string | null => {
@@ -153,7 +160,15 @@ export default function useSecureQuery(opts: Options = {}) {
     });
 
     return { data: out } as const;
-  }, [searchParams, allowList, decrypt, mode, bundleKey, encryptionMode]);
+  }, [
+    searchParams,
+    allowList,
+    decrypt,
+    mode,
+    bundleKey,
+    encryptionMode,
+    mounted,
+  ]);
 
   /* ---------- builders ---------- */
   const buildSearch = useCallback(
