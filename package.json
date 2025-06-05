@@ -1,6 +1,6 @@
 {
   "name": "use-secure-query",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A Next.js-compatible React hook for encrypted URL parameters with multiple encryption modes and features",
   "keywords": [
     "nextjs",
@@ -17,7 +17,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/NaeimAbdi/use-secure-query"
+    "url": "git+https://github.com/NaeimAbdi/use-secure-query.git"
   },
   "bugs": {
     "url": "https://github.com/NaeimAbdi/use-secure-query/issues"
