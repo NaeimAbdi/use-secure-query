@@ -113,7 +113,7 @@ The hook returns an object with the following properties:
 {
   query: Record<string, string>;        // Decrypted key → value map (Memoized)
   encrypt: (value: string) => string;   // Low-level encryption helper
-  decrypt: (value: string) => string;   // Low-level decryption helper
+  decrypt: (value: string) => string | null;   // Low-level decryption helper (returns null if tampering detected)
   pushEncrypted: (path: string, params: Record<string, string | number | boolean | null | undefined>) => void;  // router.push with auto-encryption
   replaceEncrypted: (path: string, params: Record<string, string | number | boolean | null | undefined>) => void;  // router.replace with auto-encryption
   pathname: string;                     // Current pathname

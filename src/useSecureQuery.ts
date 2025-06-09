@@ -125,24 +125,32 @@ export default function useSecureQuery(opts: Options = {}) {
     searchParams.forEach((value, key) => {
       if (value === "") return; // skip empties immediately
 
-      if (mode === "single" && key === bundleKey) {
-        const decoded = safeDecrypt(value);
+      // ---------------- Single-bundle mode ----------------
+      if (mode === "single") {
+        // Bundle key → decrypt & expand JSON payload
+        if (key === bundleKey) {
+          const decoded = safeDecrypt(value);
 
-        if (!decoded) return;
+          if (!decoded) return;
 
-        try {
-          const obj = JSON.parse(decoded);
+          try {
+            const obj = JSON.parse(decoded);
 
-          Object.entries(obj).forEach(([k, v]) => {
-            if (v !== "") out[k] = v as string;
-          });
-        } catch {
-          return;
+            Object.entries(obj).forEach(([k, v]) => {
+              if (v !== "") out[k] = v as string;
+            });
+          } catch {
+            return;
+          }
+          return; // finished processing bundle key
         }
 
+        // Plain allow-listed key – keep as-is (not encrypted)
+        out[key] = value;
         return;
       }
 
+      // ---------------- Per-param mode ----------------
       if (mode === "perParam") {
         const shouldEncrypt =
           encryptionMode === "all" ||
