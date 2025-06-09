@@ -120,6 +120,12 @@ The hook returns an object with the following properties:
 }
 ```
 
+## ⚠️ Disclaimer
+
+The hook uses an XOR + URL-safe Base64 scheme—fast enough for UI state and casual obfuscation, not for storing passwords or anything that must be cryptographically confidential. If attackers can read your JS bundle they will find the key. For true secrecy use server-side encryption or libs such as crypto.subtle with a secure key exchange.
+
+Note that this hook only encrypts URL parameters and is not safe enough for cryptographically secure data. It is intended to obfuscate what the user sees in the URL, nothing more.
+
 ## Environment Variables
 
 By default, the hook uses the `NEXT_PUBLIC_ENCRYPTION_KEY` environment variable for encryption. You can set this in your `.env.local` file:
